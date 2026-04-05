@@ -86,7 +86,7 @@ export default function SearchPage() {
               onChange={(event) => setQuery(event.target.value)}
             />
 
-            <div className="absolute left-0 right-0 top-[calc(100%+12px)] z-30 overflow-hidden rounded-[1.5rem] border border-white/10 bg-zinc-950/95 shadow-2xl shadow-black/50 backdrop-blur-xl">
+              <div className="absolute left-0 right-0 top-[calc(100%+12px)] z-30 overflow-hidden rounded-[1.5rem] border border-white/10 bg-zinc-950/95 shadow-2xl shadow-black/50 backdrop-blur-xl">
               <div className="border-b border-white/5 px-5 py-3 text-xs uppercase tracking-[0.35em] text-zinc-500">
                 {debouncedQuery.trim() ? "Suggestions" : "Trending now"}
               </div>
@@ -104,7 +104,7 @@ export default function SearchPage() {
                     key={movie.id}
                     type="button"
                     onClick={() => handleSelectMovie(movie)}
-                    className="flex w-full items-center justify-between border-b border-white/5 px-5 py-4 text-left transition-colors last:border-b-0 hover:bg-white/[0.04]"
+                    className="flex w-full items-center justify-between border-b border-white/5 px-5 py-4 text-left transition-all duration-200 last:border-b-0 hover:bg-white/[0.04] hover:opacity-100"
                   >
                     <div>
                       <p className="font-medium text-white">{movie.title}</p>
@@ -119,7 +119,7 @@ export default function SearchPage() {
                 ))
               ) : (
                 <div className="px-5 py-8 text-sm text-zinc-400">
-                  No titles found for &quot;{debouncedQuery}&quot;.
+                  No results found for &quot;{debouncedQuery}&quot;.
                 </div>
               )}
             </div>
@@ -154,7 +154,15 @@ export default function SearchPage() {
                   </div>
                 ) : (
                   <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.03] p-8 text-zinc-400">
-                    Nothing matched yet. Try a broader title or genre.
+                    <p className="text-xs uppercase tracking-[0.35em] text-zinc-500">
+                      Empty State
+                    </p>
+                    <h3 className="mt-4 text-2xl font-semibold text-white">
+                      No results found
+                    </h3>
+                    <p className="mt-3">
+                      Try a broader title, mood, or genre.
+                    </p>
                   </div>
                 )}
               </section>

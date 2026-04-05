@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 import { useProtectedRoute } from "@/hooks/useProtectedRoute";
+import { getPosterImageSrc } from "@/lib/images";
 import type { TMDBMovie } from "@/types/tmdb";
 
 const MOCK_DOWNLOADS: TMDBMovie[] = [
@@ -70,7 +71,7 @@ export default function DownloadsPage() {
               >
                 <div className="relative h-24 w-16 overflow-hidden rounded-xl">
                   <Image
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    src={getPosterImageSrc(movie.poster_path)}
                     alt={movie.title}
                     fill
                     sizes="64px"
@@ -91,7 +92,7 @@ export default function DownloadsPage() {
                       current.filter((item) => item.id !== movie.id),
                     )
                   }
-                  className="rounded-full border border-white/10 px-4 py-2 text-sm transition-colors hover:border-red-400/40 hover:text-red-200"
+                  className="rounded-full border border-white/10 px-4 py-2 text-sm transition-all duration-200 hover:scale-[1.02] hover:border-red-400/40 hover:text-red-200"
                 >
                   Delete
                 </button>

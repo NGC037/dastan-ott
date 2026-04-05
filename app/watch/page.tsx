@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import PageSkeleton from "@/components/ui/PageSkeleton";
@@ -19,6 +19,7 @@ export default function WatchPage() {
 
   const [isPlaying, setIsPlaying] = useState(true);
   const [volume, setVolume] = useState(72);
+  const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const persistedProgress = useMemo(() => {
     if (!movie) {
@@ -41,20 +42,34 @@ export default function WatchPage() {
   });
 
   useEffect(() => {
-    if (!movie || !isPlaying || progress >= 100) {
+    if (progressIntervalRef.current) {
+      clearInterval(progressIntervalRef.current);
+      progressIntervalRef.current = null;
+    }
+
+    if (!movie?.id || !isPlaying || progress >= 100) {
       return;
     }
 
-    const interval = setInterval(() => {
-      setProgress((current) => {
-        const nextValue = Math.min(current + 2, 100);
-        updateProgress(movie, nextValue);
-        return nextValue;
-      });
+    progressIntervalRef.current = setInterval(() => {
+      setProgress((current) => Math.min(current + 2, 100));
     }, 2500);
 
-    return () => clearInterval(interval);
-  }, [isPlaying, movie, progress, updateProgress]);
+    return () => {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+        progressIntervalRef.current = null;
+      }
+    };
+  }, [isPlaying, movie?.id, progress]);
+
+  useEffect(() => {
+    if (!movie || progress <= persistedProgress) {
+      return;
+    }
+
+    updateProgress(movie, progress);
+  }, [movie, persistedProgress, progress, updateProgress]);
 
   if (!isReady) {
     return <div className="min-h-[60vh] bg-black" />;
@@ -65,7 +80,7 @@ export default function WatchPage() {
       <main className="flex min-h-[70vh] items-center justify-center bg-black px-6 text-white">
         <button
           type="button"
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/browse")}
           className="rounded-full border border-white/15 px-5 py-3 transition-colors hover:border-white/30"
         >
           Go back to browse
@@ -78,7 +93,9 @@ export default function WatchPage() {
     return <PageSkeleton />;
   }
 
-  const trailer = videos.find((video) => video.type === "Trailer");
+  const trailer = videos.find(
+    (video) => video.type === "Trailer" && video.site === "YouTube",
+  );
 
   return (
     <motion.main
@@ -91,8 +108,9 @@ export default function WatchPage() {
         {trailer ? (
           <iframe
             className="h-full w-full"
-            src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=0`}
+            src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=0&controls=0&rel=0`}
             title={`Trailer for ${movie.title}`}
+            allow="autoplay; encrypted-media"
             allowFullScreen
           />
         ) : (
@@ -101,20 +119,20 @@ export default function WatchPage() {
           </div>
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30 pointer-events-none" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30" />
 
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
           <div className="mb-6 flex flex-wrap gap-3">
             <button
               type="button"
               onClick={() => setProgress((current) => Math.min(current + 15, 100))}
-              className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition-transform hover:scale-[1.02]"
+              className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition-all duration-200 hover:scale-[1.02] hover:opacity-95"
             >
               Skip Intro
             </button>
             <button
               type="button"
-              className="rounded-full border border-white/15 bg-black/40 px-5 py-3 text-sm transition-colors hover:border-white/30"
+              className="rounded-full border border-white/15 bg-black/40 px-5 py-3 text-sm transition-all duration-200 hover:scale-[1.02] hover:border-white/30 hover:opacity-95"
             >
               Next Episode
             </button>
@@ -151,20 +169,22 @@ export default function WatchPage() {
                 <button
                   type="button"
                   onClick={() => setIsPlaying((current) => !current)}
-                  className="rounded-full bg-white px-5 py-3 font-semibold text-black transition-transform hover:scale-[1.02]"
+                  className="rounded-full bg-white px-5 py-3 font-semibold text-black transition-all duration-200 hover:scale-[1.02] hover:opacity-95"
                 >
                   {isPlaying ? "Pause" : "Play"}
                 </button>
                 <button
                   type="button"
-                  className="rounded-full border border-white/15 px-4 py-3 text-sm transition-colors hover:border-white/30"
+                  className="rounded-full border border-white/15 px-4 py-3 text-sm transition-all duration-200 hover:scale-[1.02] hover:border-white/30 hover:opacity-95"
                 >
                   Volume {volume}
                 </button>
                 <button
                   type="button"
-                  onClick={() => setVolume((current) => (current >= 100 ? 0 : current + 25))}
-                  className="rounded-full border border-white/15 px-4 py-3 text-sm transition-colors hover:border-white/30"
+                  onClick={() =>
+                    setVolume((current) => (current >= 100 ? 0 : current + 25))
+                  }
+                  className="rounded-full border border-white/15 px-4 py-3 text-sm transition-all duration-200 hover:scale-[1.02] hover:border-white/30 hover:opacity-95"
                 >
                   Adjust Volume
                 </button>
@@ -172,7 +192,7 @@ export default function WatchPage() {
 
               <button
                 type="button"
-                className="rounded-full border border-white/15 px-4 py-3 text-sm transition-colors hover:border-white/30"
+                className="rounded-full border border-white/15 px-4 py-3 text-sm transition-all duration-200 hover:scale-[1.02] hover:border-white/30 hover:opacity-95"
               >
                 Fullscreen
               </button>

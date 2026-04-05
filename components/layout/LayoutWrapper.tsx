@@ -10,7 +10,7 @@ interface LayoutWrapperProps {
   children: React.ReactNode;
 }
 
-const CHROMELESS_ROUTES = new Set(["/login", "/profiles"]);
+const CHROMELESS_ROUTES = new Set(["/", "/login", "/profiles"]);
 
 export default function LayoutWrapper({ children }: LayoutWrapperProps) {
   const pathname = usePathname();

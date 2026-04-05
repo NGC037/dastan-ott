@@ -23,7 +23,15 @@ export default function MyListPage() {
 
       {myList.length === 0 ? (
         <div className="rounded-3xl border border-dashed border-white/10 bg-white/[0.03] p-10 text-zinc-400">
-          Save titles from the homepage to build your personal watchlist.
+          <p className="text-xs uppercase tracking-[0.35em] text-zinc-500">
+            Empty State
+          </p>
+          <h2 className="mt-4 text-2xl font-semibold text-white">
+            Nothing saved yet
+          </h2>
+          <p className="mt-3">
+            Save titles from the homepage to build your personal watchlist.
+          </p>
         </div>
       ) : (
         <div className="flex flex-wrap gap-4">

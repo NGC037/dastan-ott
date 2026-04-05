@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { getPosterImageSrc } from "@/lib/images";
 import { useAppStore } from "@/store/useAppStore";
 import type { TMDBMovie } from "@/types/tmdb";
 
@@ -32,7 +33,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
       className="group relative h-[270px] min-w-[180px] cursor-pointer overflow-hidden rounded-[1.2rem] border border-white/10 bg-zinc-950/80 text-left"
     >
       <Image
-        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+        src={getPosterImageSrc(movie.poster_path)}
         alt={movie.title}
         fill
         sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 180px"
@@ -43,7 +44,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
 
       {progress > 0 && (
         <div className="absolute left-3 right-3 top-3 rounded-full border border-red-500/20 bg-black/60 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.28em] text-red-200 backdrop-blur-sm">
-          Resume watching
+          Resume
         </div>
       )}
 
@@ -63,7 +64,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
             </div>
             <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-red-500 to-orange-400"
+                className="h-full rounded-full bg-gradient-to-r from-red-500 to-orange-400 transition-[width] duration-300"
                 style={{ width: `${progress}%` }}
               />
             </div>

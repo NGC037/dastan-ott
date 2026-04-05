@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchData, endpoints } from "@/services/api";
 import { KIDS_ROW_KEYWORDS } from "@/lib/content";
 import { useProtectedRoute } from "@/hooks/useProtectedRoute";
+import { getPosterImageSrc } from "@/lib/images";
 import { useAppStore } from "@/store/useAppStore";
 import type { TMDBMovie } from "@/types/tmdb";
 
@@ -59,7 +60,7 @@ export default function KidsPage() {
     >
       <div className="relative aspect-[4/5] overflow-hidden">
         <Image
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+          src={getPosterImageSrc(movie.poster_path)}
           alt={movie.title}
           fill
           sizes="(max-width: 768px) 50vw, 20vw"

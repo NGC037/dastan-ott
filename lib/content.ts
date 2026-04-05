@@ -6,7 +6,7 @@ export interface ProfileOption {
   key: ProfileType;
   label: string;
   tagline: string;
-  destination: "/" | "/kids";
+  destination: "/browse" | "/kids";
 }
 
 export interface ContentRow {
@@ -20,7 +20,7 @@ export const PROFILE_OPTIONS: ProfileOption[] = [
     key: "adult",
     label: "Adult",
     tagline: "Thrillers, prestige drama, and blockbuster nights.",
-    destination: "/",
+    destination: "/browse",
   },
   {
     key: "kids",

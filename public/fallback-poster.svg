@@ -1,0 +1,18 @@
+<svg width="800" height="1200" viewBox="0 0 800 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="1200" fill="#09090B"/>
+  <rect x="36" y="36" width="728" height="1128" rx="40" fill="url(#paint0_linear)"/>
+  <rect x="120" y="160" width="560" height="560" rx="32" fill="rgba(255,255,255,0.04)"/>
+  <path d="M240 640L340 520L430 620L520 510L620 640V700H240V640Z" fill="rgba(255,255,255,0.12)"/>
+  <circle cx="320" cy="300" r="58" fill="rgba(255,255,255,0.12)"/>
+  <rect x="164" y="796" width="472" height="26" rx="13" fill="rgba(255,255,255,0.16)"/>
+  <rect x="164" y="856" width="380" height="20" rx="10" fill="rgba(255,255,255,0.1)"/>
+  <rect x="164" y="908" width="432" height="20" rx="10" fill="rgba(255,255,255,0.08)"/>
+  <text x="400" y="1024" fill="rgba(255,255,255,0.46)" font-family="Arial, sans-serif" font-size="46" text-anchor="middle" letter-spacing="10">DASTAN</text>
+  <defs>
+    <linearGradient id="paint0_linear" x1="96" y1="72" x2="696" y2="1128" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#18181B"/>
+      <stop offset="0.55" stop-color="#0F0F13"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+  </defs>
+</svg>

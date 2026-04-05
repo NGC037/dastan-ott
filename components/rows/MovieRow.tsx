@@ -20,7 +20,6 @@ export default function MovieRow({ title, fetchUrl, customMovies }: Props) {
   });
 
   const movies = customMovies || data;
-  const visibleMovies = movies.filter((movie) => Boolean(movie.poster_path));
 
   return (
     <div className="mt-12 px-10">
@@ -29,7 +28,7 @@ export default function MovieRow({ title, fetchUrl, customMovies }: Props) {
       <div className="flex gap-4 overflow-x-auto no-scrollbar">
         {isLoading
           ? [...Array(5)].map((_, index) => <Skeleton key={index} />)
-          : visibleMovies.map((movie) => (
+          : movies.map((movie) => (
               <MovieCard key={movie.id} movie={movie} />
             ))}
       </div>

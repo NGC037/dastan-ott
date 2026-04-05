@@ -27,7 +27,7 @@ export default function Sidebar() {
 
   const handleNavigate = (value: GenreCategory) => {
     setGenre(value);
-    router.push(value === "my-list" ? "/my-list" : "/");
+    router.push(value === "my-list" ? "/my-list" : "/browse");
   };
 
   return (
@@ -48,12 +48,12 @@ export default function Sidebar() {
               key={item.value}
               type="button"
               onClick={() => handleNavigate(item.value)}
-              className={`relative flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-all duration-200 ${
+              className={`relative flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-all duration-200 hover:opacity-100 ${
                 activeGenre === item.value
                   ? "bg-gradient-to-r from-red-600 to-red-500 text-white shadow-lg shadow-red-950/50"
                   : "text-zinc-300 hover:bg-white/5 hover:text-white"
               }`}
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ scale: 1.02, opacity: 1 }}
               whileTap={{ scale: 0.98 }}
             >
               {activeGenre === item.value && (

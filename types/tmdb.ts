@@ -19,4 +19,5 @@ export interface TMDBVideo {
   id?: string;
   key: string;
   type: string;
+  site?: string;
 }

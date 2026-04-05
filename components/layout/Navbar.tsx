@@ -20,7 +20,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={toggleSidebar}
-          className="rounded-lg p-2 transition-colors duration-200 hover:bg-white/10"
+          className="rounded-lg p-2 transition-all duration-200 hover:scale-[1.03] hover:bg-white/10 hover:opacity-100"
           title="Toggle sidebar"
           aria-label="Toggle sidebar navigation"
         >
@@ -47,9 +47,9 @@ export default function Navbar() {
           type="button"
           onClick={() => {
             setGenre("all");
-            router.push("/");
+            router.push("/browse");
           }}
-          className="text-left"
+          className="text-left transition-all duration-200 hover:scale-[1.01] hover:opacity-95"
         >
           <p className="text-xl font-semibold tracking-[0.2em] text-white">
             Dastan
@@ -64,28 +64,28 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => router.push("/search")}
-          className="rounded-full border border-white/10 px-3 py-2 transition-colors hover:border-white/20 hover:text-white md:px-4"
+          className="rounded-full border border-white/10 px-3 py-2 transition-all duration-200 hover:scale-[1.02] hover:border-white/20 hover:text-white md:px-4"
         >
           Search
         </button>
         <button
           type="button"
           onClick={() => router.push("/downloads")}
-          className="hidden rounded-full border border-white/10 px-4 py-2 transition-colors hover:border-white/20 hover:text-white md:block"
+          className="hidden rounded-full border border-white/10 px-4 py-2 transition-all duration-200 hover:scale-[1.02] hover:border-white/20 hover:text-white md:block"
         >
           Downloads
         </button>
         <button
           type="button"
           onClick={() => router.push("/my-list")}
-          className="hidden rounded-full border border-white/10 px-4 py-2 transition-colors hover:border-white/20 hover:text-white md:block"
+          className="hidden rounded-full border border-white/10 px-4 py-2 transition-all duration-200 hover:scale-[1.02] hover:border-white/20 hover:text-white md:block"
         >
           My List
         </button>
         <button
           type="button"
           onClick={() => router.push("/account")}
-          className="rounded-full border border-white/10 px-3 py-2 transition-colors hover:border-white/20 hover:text-white md:px-4"
+          className="rounded-full border border-white/10 px-3 py-2 transition-all duration-200 hover:scale-[1.02] hover:border-white/20 hover:text-white md:px-4"
         >
           Account
         </button>
@@ -104,7 +104,7 @@ export default function Navbar() {
             logout();
             router.push("/login");
           }}
-          className="rounded-full bg-white px-3 py-2 font-medium text-black transition-transform hover:scale-[1.02] md:px-4"
+          className="rounded-full bg-white px-3 py-2 font-medium text-black transition-all duration-200 hover:scale-[1.02] hover:opacity-95 md:px-4"
         >
           Logout
         </button>
