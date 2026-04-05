@@ -29,8 +29,9 @@ export default function MovieCard({ movie }: MovieCardProps) {
       type="button"
       onClick={handleClick}
       whileHover={{ y: -8, scale: 1.04 }}
+      whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.22, ease: "easeOut" }}
-      className="group relative h-[270px] min-w-[180px] cursor-pointer overflow-hidden rounded-[1.2rem] border border-white/10 bg-zinc-950/80 text-left"
+      className="group relative h-[270px] min-w-[180px] cursor-pointer overflow-hidden rounded-[1.2rem] border border-white/10 bg-zinc-950/80 text-left shadow-[0_0_0_rgba(239,68,68,0)] transition-shadow duration-300 hover:shadow-[0_0_28px_rgba(239,68,68,0.18)]"
     >
       <Image
         src={getPosterImageSrc(movie.poster_path)}

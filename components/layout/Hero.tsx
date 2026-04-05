@@ -14,6 +14,7 @@ const ROTATION_INTERVAL = 6000;
 export default function Hero() {
   const addToList = useAppStore((state) => state.addToList);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const { data: movies = [] } = useQuery<TMDBMovie[]>({
     queryKey: ["trending"],
@@ -26,7 +27,7 @@ export default function Hero() {
   );
 
   useEffect(() => {
-    if (heroMovies.length <= 1) {
+    if (heroMovies.length <= 1 || isPaused) {
       return;
     }
 
@@ -35,7 +36,7 @@ export default function Hero() {
     }, ROTATION_INTERVAL);
 
     return () => clearInterval(interval);
-  }, [heroMovies.length]);
+  }, [heroMovies.length, isPaused]);
 
   const featuredMovie = heroMovies[activeIndex] ?? movies[0] ?? null;
   const nextMovie =
@@ -55,7 +56,11 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative flex h-[85vh] items-end overflow-hidden px-10 pb-24">
+    <section
+      className="relative flex h-[85vh] items-end overflow-hidden px-10 pb-24"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       <div className="absolute inset-0 -z-10">
         <AnimatePresence mode="wait">
           <motion.div
@@ -82,38 +87,86 @@ export default function Hero() {
       <AnimatePresence mode="wait">
         <motion.div
           key={`hero-copy-${featuredMovie.id}`}
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -16 }}
-          transition={{ duration: 0.45, ease: "easeOut" }}
+          initial="hidden"
+          animate="show"
+          exit="exit"
+          variants={{
+            hidden: {},
+            show: {
+              transition: {
+                staggerChildren: 0.08,
+                delayChildren: 0.06,
+              },
+            },
+            exit: {
+              transition: {
+                staggerChildren: 0.04,
+                staggerDirection: -1,
+              },
+            },
+          }}
           className="max-w-xl"
         >
-          <p className="mb-4 text-xs uppercase tracking-[0.45em] text-red-300/90">
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 18 },
+              show: { opacity: 1, y: 0 },
+              exit: { opacity: 0, y: -10 },
+            }}
+            transition={{ duration: 0.28, ease: "easeOut" }}
+            className="mb-4 text-xs uppercase tracking-[0.45em] text-red-300/90"
+          >
             Featured Tonight
-          </p>
-          <h1 className="text-5xl font-bold leading-tight md:text-7xl">
+          </motion.p>
+          <motion.h1
+            variants={{
+              hidden: { opacity: 0, y: 18 },
+              show: { opacity: 1, y: 0 },
+              exit: { opacity: 0, y: -10 },
+            }}
+            transition={{ duration: 0.34, ease: "easeOut" }}
+            className="text-5xl font-bold leading-tight md:text-7xl"
+          >
             {featuredMovie.title}
-          </h1>
+          </motion.h1>
 
-          <p className="mb-6 mt-4 text-sm text-zinc-300 md:text-base">
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 18 },
+              show: { opacity: 1, y: 0 },
+              exit: { opacity: 0, y: -10 },
+            }}
+            transition={{ duration: 0.34, ease: "easeOut" }}
+            className="mb-6 mt-4 text-sm text-zinc-300 md:text-base"
+          >
             {featuredMovie.overview?.slice(0, 150)}...
-          </p>
+          </motion.p>
 
-          <div className="flex gap-4">
-            <button
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 18 },
+              show: { opacity: 1, y: 0 },
+              exit: { opacity: 0, y: -10 },
+            }}
+            transition={{ duration: 0.34, ease: "easeOut" }}
+            className="flex gap-4"
+          >
+            <motion.button
               type="button"
+              whileTap={{ scale: 0.97 }}
               className="rounded-md bg-white px-6 py-2 font-medium text-black transition-all duration-200 hover:scale-[1.02] hover:opacity-95"
             >
               Play
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               type="button"
+              whileTap={{ scale: 0.97 }}
               onClick={() => addToList(featuredMovie)}
               className="rounded-md bg-white/20 px-6 py-2 transition-all duration-200 hover:scale-[1.02] hover:bg-white/25"
             >
               + My List
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         </motion.div>
       </AnimatePresence>
     </section>

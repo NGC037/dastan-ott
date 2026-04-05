@@ -43,9 +43,9 @@ export default function MovieDetails() {
   const trailer = videos.find(
     (video) => video.type === "Trailer" && video.site === "YouTube",
   );
-
-  const trailerSrc = trailer
-    ? `https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=1&controls=0&loop=1&playlist=${trailer.key}&playsinline=1&rel=0`
+  const trailerKey = trailer?.key;
+  const trailerSrc = trailerKey
+    ? `https://www.youtube.com/embed/${trailerKey}?autoplay=1&mute=1&controls=0&loop=1&playlist=${trailerKey}&playsinline=1&rel=0`
     : null;
 
   return (
@@ -58,7 +58,7 @@ export default function MovieDetails() {
       <div className="relative h-[72vh] overflow-hidden bg-black">
         {trailerSrc ? (
           <motion.iframe
-            key={trailer.key}
+            key={trailerKey}
             initial={{ opacity: 0, scale: 1.02 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -116,8 +116,9 @@ export default function MovieDetails() {
           <p className="mt-6 max-w-2xl text-zinc-300">{movie.overview}</p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <button
+            <motion.button
               type="button"
+              whileTap={{ scale: 0.97 }}
               onClick={() => {
                 setSelectedMovie(movie);
                 router.push("/watch");
@@ -125,14 +126,15 @@ export default function MovieDetails() {
               className="rounded-full bg-white px-6 py-3 font-semibold text-black transition-all duration-200 hover:scale-[1.02] hover:opacity-95"
             >
               Play Now
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               type="button"
+              whileTap={{ scale: 0.97 }}
               onClick={() => router.push("/my-list")}
               className="rounded-full border border-white/15 px-6 py-3 transition-all duration-200 hover:scale-[1.02] hover:border-white/30 hover:opacity-95"
             >
               Go to My List
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>
